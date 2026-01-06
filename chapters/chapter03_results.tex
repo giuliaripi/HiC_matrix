@@ -1,0 +1,172 @@
+
+    % Probability distributions for the components of Hi-C matrix eigenvectors of rank 1, 2, 10 and 100; analogous distri butions for random matrix eigenvectors.\\
+    % Cosa rappresenta la “probability distribution of the components”?
+    
+    % Ogni componente vk[i] dell’autovettore può essere considerata come un valore numerico.
+    
+    % Se fai l’istogramma di tutti i componenti di vk, ottieni una distribuzione di probabilità dei valori dei componenti.
+    
+    % L’idea è confrontare:
+    
+    % La distribuzione dei componenti degli autovettori Hi-C (verde o blu)
+    
+    % Con quella dei componenti degli autovettori di matrici casuali RM (arancione)
+    
+    % Questo confronto ti permette di capire quali autovettori contengono segnale biologico e quali sono solo rumore.
+    
+    %  Interpretazione
+    
+    % Rumore → componenti distribuiti come Gaussian standard (vicino a RM).
+    
+    % Segnale → componenti molto sbilanciati, alcune posizioni dominano, tipico delle strutture biologiche (TADs, compartments).
+    
+    % In pratica, se l’autovettore Hi-C assomiglia al corrispondente RM → è rumore.
+    
+    % Se differisce (alcune componenti grandi, altre piccole) → è segnale “essenziale”.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    % PCA captures the main axes of variation across real and synthetic centrality features, highlighting global differences.
+    
+    % t-SNE emphasizes local similarities, allowing visual separation of real versus synthetic matrices in complex feature spaces.
+    
+    % UMAP balances local and global structure, providing a complementary view to both PCA and t-SNE.
+    
+    % By combining these techniques, we can visually and quantitatively assess whether synthetic Hi-C matrices reproduce the structure of real data in the centrality feature space.
+
+This section presents what was obtained in every step towards the generation of synthetic data, how the process evolved from the original matrix, through the essential Hi-C matrix ending with the synthetic copies.
+\subsection{Essential matrix and Noise components}
+Signal and noise are distinguished by exploiting the aforementioned Random Matrix Theory (RMT). %In Figure \ref{}, all the different matrices are shown. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.42\linewidth]{chapters/images/Chapter 03/eigenvalues_BIL_chr1_list.txt.png}
+    \caption{Original Hi-C matrix generated from \textit{BIL\_chr1\_list} data, representing genomic coordinates of brain microvascular endothelial cells.}
+    \label{fig:original matrix}
+\end{figure}
+
+The plot shown in Figure \ref{fig:original matrix} displays the original Hi-C matrix, obtained from the raw data. The signal and noise components have been extracted from this matrix, and they have been isolated and shown in the left and right plots of the Figure \ref{fig: ess noise hic} respectively.
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=6cm]{chapters/images/Chapter 03/Essential_HiC_matrix_BIL_chr1_list_matrix.npy.png}
+    \end{minipage}
+    \hspace{0.1\linewidth}
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=6cm]{chapters/images/Chapter 03/Noise_matrix_BIL_chr1_list_matrix.npy.png}
+    \end{minipage}
+    \caption{Essential Hi-C matrix (left) and noise matrix(right) isolated from the original matrix (\textit{BIL\_chr1\_list})}
+    \label{fig: ess noise hic}
+\end{figure}
+The matrix showing the signal component has the name of Essential Hi-C matrix (Ess Hi-C) and it is a processed representation of chromatin contacts that retains only biologically meaningful interactions, minimizing noise and highlighting the core 3D genome structure.
+To obtain this matrix, a spectral analysis was performed using the \textit{Wigner semicircular law}, which identifies all eigenvalues associated with random, uncorrelated fluctuations, namely the noise. In Figure \ref{fig: wigner}, the histogram of the eigenvalue distribution is overlaid with the Wigner semicircle. 
+This shows whether the components are roughly uniform, concentrated in a few entries, or follow a particular pattern (Gaussian for random noise).
+Highlighted in red are the ten most significant eigenvalues lying outside the semicircle, representing those that deviate most strongly from a normal distribution and because of that identified as signal.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{chapters/images/Chapter 03/eigenvalues_distr_BIL_chr1_list_matrix.npy.png}
+    \caption{Eigenvalue distribution histogram (\textit{BIL\_chr1\_list}) overlaided with the Wigner semicircle. Highlithed in red are the ten most significan eigenvalues lying outside the semicircle.}
+    \label{fig: wigner}
+\end{figure}
+To validate the results obtained, the probability distributions of the components of Hi-C matrix eigenvectors of rank 1, 2, 10, and 100 were produced (Figure \ref{fig: rank 1,2,10,100 eigen}). 
+Eigenvectors of low rank (rank 1, 2, …) do not follow a Gaussian distribution, indicating that they capture biologically meaningful structures; their components are non-random, with certain genomic regions standing out.
+As the eigenvector rank increases, the distributions approach that predicted by a standard Gaussian: no component stands out, and the values are roughly uniform. This confirms that high-rank eigenvalues represent noise, while low-rank eigenvalues can be considered as signal.
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=5.5cm]{chapters/images/Chapter 03/eigenvector_distr_BIL_chr1_list_matrix.npy_1.png}
+    \end{minipage}
+    \hspace{0.1\linewidth}
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=5.5cm]{chapters/images/Chapter 03/eigenvector_distr_BIL_chr1_list_matrix.npy_2.png}
+    \end{minipage}
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=5.5cm]{chapters/images/Chapter 03/eigenvector_distr_BIL_chr1_list_matrix.npy_10.png}
+    \end{minipage}
+    \hspace{0.1\linewidth}
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=5.5cm]{chapters/images/Chapter 03/eigenvector_distr_BIL_chr1_list_matrix.npy_100.png}
+    \end{minipage}
+    \caption{Probability distributions of the components of Hi-C matrix eigenvectors (\textit{BIL\_chr1\_list}) for ranks 1, 2, 10, and 100. Low-rank eigenvectors (rank 1 and 2) deviate from a Gaussian distribution, indicating they capture biologically meaningful structures. Higher-rank eigenvectors (rank 10 and 100) follow a Gaussian-like distribution, with components roughly uniform, consistent with random noise.}
+    \label{fig: rank 1,2,10,100 eigen}
+\end{figure}
+All the eigenvalues, included the one falling inside the Wigner semicircle, were statistically tested to evaluate the robustness of the results.
+\newpage
+\subsection{Synthetic generation and Centrality measures}
+Once the real signal and noise component have been identified, the shyinthetic matrices can be produced. In this project fifty cofies of each sample data have been created. An example of sythetic matrix is reported in Figure \ref{}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.42\linewidth]{chapters/images/Chapter 03/BIL_chr1_list_1copy.npy.png}
+    \caption{Example of synthetic Hi-C matrix generated from the essential Hi-C matrix (\textit{BIL\_chr1\_list}) perturbed with a noise component.}
+    \label{fig: syntethic example matrix}
+\end{figure}
+To evaluate the compatibility of the synthetic data with the real one, each matrix was interpreted as a weighted network, where genomic loci correspond to nodes and contact frequencies define the edge weights. 
+Based on this representation, several centrality measures were computed (including degree, betweenness, closeness, and eigenvector centrality) to quantify the relative importance of each locus within the overall interaction network.
+The resulting centrality profiles were then used as feature vectors and projected into lower-dimensional spaces using three complementary dimensionality-reduction techniques: PCA, UMAP, and t-SNE. 
+These visualizations allowed to assess whether loci with similar structural roles cluster together. 
+%PCA provided a first linear overview of the data, while UMAP and t-SNE revealed more detailed nonlinear patterns. Among these methods, t-SNE produced the most distinct grouping of genomic regions, and its final cost value was recorded as an indicator of the quality and stability of the embedding.
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=5.5cm]{chapters/images/Chapter 03/BIL_chr1_list_matrix_centrality.csv_PCA.png}
+    \end{minipage}
+    \hspace{0.15\linewidth}
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=5.5cm]{chapters/images/Chapter 03/BIL_chr1_list_matrix_centrality.csv_UMAP.png}
+    \end{minipage}
+    \caption{PCA (left) and UMAP (right) projections of the real Hi-C matrix and its synthetic copies generated from the \textit{BIL\_chr1\_list} sample.}
+    \label{fig: PCA UMAP}
+\end{figure}
+As an example, we consider the results derived from the synthetic copies generated from the \textit{BIL\_chr1\_list} sample, which are representative of all the other results and they are shown in the Figure \ref{fig: PCA UMAP}. 
+In this case both PCA and UMAP plots show that the synthetic datasets form compact clusters around the real matrix, indicating that the synthetic generation procedure preserves the main structural properties of the original data. 
+In the PCA projection, the values lie within a relatively narrow range (approximately –6 to +6 along both axes), reflecting the linear variance structure captured by the first two principal components. 
+In contrast, the UMAP embedding spans different coordinate ranges (about –2 to 1.5 on the x-axis and 7.5 to 11 on the y-axis), which is expected given UMAP’s nonlinear optimization and scaling. Despite these differences in numerical ranges, both methods consistently reveal the close relationship between real and synthetic data, confirming that the synthetic matrices reproduce the essential features of the original Hi-C network.
+\begin{figure}[H]
+    \centering
+    \includegraphics[height= 5.5cm]{chapters/images/Chapter 03/BIL_chr1_list_matrix_centrality.csv_tSNE.png}
+    \caption{t-SNE embedding of the real Hi-C matrix and its synthetic copies generated from the \textit{BIL\_chr1\_list} sample.}
+    \label{fig: tSNE}
+\end{figure}
+
+The t-SNE embedding (Figure \ref{fig: tSNE}) shows a wider spread of values compared to PCA and UMAP, with coordinates ranging approximately from –40 to +40 on the x-axis and from –30 to +30 on the y-axis. Such broad numerical ranges are typical of t-SNE, as the method does not preserve global scale and often expands or contracts distances to emphasize local neighbourhood structure. Despite this difference in scale, the clustering pattern remains consistent with that observed in PCA and UMAP, further confirming the similarity between real and synthetic matrices.
+
+Finally, the t-SNE costs (Kullback–Leibler divergence) of all the synthetic copies can be seen in the Table \ref{tab: KL div}.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{Sample} & \textbf{KL divergence} \\ 
+    \hline
+    BIL\_chr1 & 0.018 \\ 
+    \hline
+    BWW\_chr1 & 0.022 \\ 
+    \hline
+    BYJ\_chr1 & 0.020 \\ 
+    \hline
+    CVJ\_chr1 & 0.016 \\ 
+    \hline
+    LBZ\_chr1 & 0.031 \\ 
+    \hline
+    PYA\_chr1 & 0.025 \\ 
+    \hline
+    \end{tabular}
+    \caption{Silhouette score}
+    \label{tab: KL div}
+\end{table}
+
+The values are very small, they range between 0.016 and 0.031 indicating a high-quality embedding. Low KL divergence values reflect good agreement between the high-dimensional similarity structure and the two-dimensional representation. This suggests that t-SNE successfully captures the underlying relationships between samples and provides a reliable nonlinear visualization of their similarity.

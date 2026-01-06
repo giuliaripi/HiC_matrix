@@ -1,0 +1,11 @@
+The Hi-C method is a method which enables the comprehensive, unbiased mapping of long-range chromatin interactions across an entire genome. Hi-C couples proximity-based ligation with massively parallel sequencing to probe the 3D architecture of whole genomes.
+The underlying principle of Hi-C involves crosslinking cells with formaldehyde, digesting the DNA, filling the overhangs with a biotinylated residue, and then performing ligation under dilute conditions to favor events between cross-linked fragments. 
+The resulting biotin-marked ligation products, which represent fragments originally in close spatial proximity, are then purified, sheared, and analyzed using massively parallel DNA sequencing. 
+This process allows for the construction of a genome-wide contact matrix M at a resolution of 1 megabase, reflecting the ensemble average of interactions (\cite{comprehensive_mapping}).
+\subsection{Hi-C matrix}
+From the Hi-C experimental measure that describes how DNA is folded in three-dimensional space within the cell nucleus, the end result is a Hi-C matrix, which represents the probability that two genomic regions are spatially close. 
+The matrix is essentially a two-dimensional heatmap where both axes represent genomic coordinates. 
+It is square and symmetrical: each element $(i, j)$ indicates how many times the regions $i$ and $j$ are in contact.
+The diagonal of the matrix represents interactions of genomic regions with themselves or nearby regions while off-diagonal elements indicate long-range interactions, including loops and contacts between different chromosomal domains.
+Since the experimental data vary in reading depth, they are normalized, so they do not contain integer values but normalized real values.
+From a biological point of view, HI-C matrices are used to identify Topologically Associating Domains (TADs), which are regions with enriched internal interactions, chromatin loops, which are point interactions between enhancers and promoters and A/B compartments, which are large-scale separation of active (A) and inactive (B) chromatin. 

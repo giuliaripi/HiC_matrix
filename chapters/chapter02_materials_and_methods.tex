@@ -1,0 +1,163 @@
+The project aims to generate fifty synthetic copies of each one of the  six original dataset containing  HiC data from three different cell types: brain pericyte cells (\textit{LBZ\_chr1\_list, CVJ\_chr1\_list}), brain microvascular endothelial cells (\textit{BIL\_chr1\_list, BYJ\_chr1\_list}) and astrocyte of the spinal cord (\textit{BWW\_chr1\_list, PYA\_chr1\_list}).
+To obtain this result, real signal and noise components must be separated and the synthetic matrices will be the sum the real signal component and the randomly perturbed noise one. 
+\subsection{Random Matrix Theory (RMT)}
+In Hi-C or network analysis, we often want to distinguish signal (biologically meaningful correlations) from noise (random statistical fluctuations).
+Random Matrix Theory provides a null model of pure noise: a Gaussian random symmetric matrix.
+In this theory, $M$ symmetric matrices of dimension $N$ are considered. Their elements $M_{ij}$ are random numbers and behave such that:
+\begin{equation}
+    \langle M_{ij}\rangle=0, \qquad Var{M_{ij}}=\sigma^2
+\end{equation}
+As $N$ increases, the eigenvalues distribution of $M$ converges to an universal law, independently from noise details: the \textit{Wigner Semicircle law}. \\
+%\subsubsection{Wigner Semicircular distribution}
+The Wigner semicircle law describes the asymptotic distribution of eigenvalues of large random symmetric matrices. It is one of the milestone results of RMT and form the statystical foundation for distinguishing structured signal from noise in complex systems (\cite{mehta2004random}). In the spectral analysis of Hi-C contact matrices, the Wigner semicircle law serves as a theoretical reference for the eigenvalue distribution expected from random, uncorrelated noise.\\
+The law states that:
+\begin{equation}
+    \rho(\lambda)= \begin{cases}
+        \frac{1}{2\pi \sigma^2}\sqrt{4\sigma^4-\lambda^2}, \quad |\lambda|\leq 2\sigma\\
+        0, \quad |\lambda|> 2\sigma
+    \end{cases}
+\end{equation}
+for  large matrices, almost all eigenvalues related to random, uncorrelated fluctuations, namely the noise, fall within this interval. Eigenvalues lying outside this region are statistically unlikely to be purely random ensamble and thus are inetrpreted as indicators of structured, biologically meaningful signal.
+Thus, the Wigner distribution allows separating signal-dominated and noise-dominated modes in genomic contact networks.
+\subsubsection{Statistical tests}
+In this project, three complementary statistical tests have been employed to evaluate the performance and robustness of the model.
+The three tests are:
+\begin{itemize}
+    \item \textbf{Explained variance test}
+    \item \textbf{Kolmogorov-Smirnov (KS) test}
+    \item \textbf{Shuffling test}.
+\end{itemize}
+The first to be applied is the explained variance test which was used to quantify how much the variability in the observed data is captured by the model providing a measure of the goodness of the fit. higher explained variance indicates that the model effectively represent the underlying structure of the data (\cite{hastie2009elements}). \\
+After that, the KS test was applied to compare the distributions of model outputs assessing whether they significantly deviate from a reference distribution (\cite{massey1951kolmogorov}). Eventually, the shuffling test was performed to determine the statistical significance of observed effects. By randomly shuffling labels or variables and recalculating the test statistic multiple times, we generated a null distribution, allowing us to assess whether the observed results could arise by chance (\cite{good2005permutation}). Together, these tests provided a rigorous framework to validate model predictions and to ensure that observed patterns were not artefacts of random variation.
+
+\subsection{Synthetic Hi-C matrix generation}
+To simulate realistic Hi-C variability, the essential Hi-C has been perturbed with a noise component obtained by preserving the eigenvalue structure but perturbing the eigenvectors. 
+Each noise matrix was decomposed into eigenvalues and eigenvectors and an uniform perturbation was added to all eigenvectors. 
+The perturbation was then smoothed using a Gaussian filter ($\sigma=2$) to introduce local spatial correlation, emulating domain-level structure in Hi-C noise. 
+The perturbed eigenvectors were orthonormalized through singular value decomposition to guarantee a valid spectral basis. Eventually, the modified eigenvectors and original eigenvalues were recombined to produce a new noise matrix whose spectral properties reflect realistic structured noise. 
+The synthetic Hi-C matrix was obtained by adding the signal matrix to the reconstructed noise one, the result was symmetrized and negative values, if present, truncated to zero to comply with Hi-C contact counts constraints.
+
+
+\subsection{Centrality measurements}
+Hi-C matrices can be threatened as weighted networks, hance, to evaluate the compatibility between real and synthetic distributions, centrality measures can be performed.
+From a contact matrix a graph is created, identifying nodes, edges and edge attributes such as weight and distance. 
+Indeed, in weighted networks each edge has a weight $w_{ij}$, representing the intensity, capacity or frequency of the connection between nodes $i$ and $j$ (\cite{barrat2004architecture}). In the same context, distance $d(i,j)$ is defined inversely to edge weight.
+The centralities involved in this analysis are: 
+\begin{itemize}
+    \item \textbf{Strength} (weighted degree): sum of the edge weights per node. Being $N(i)$ the neighbors of $i$, the strength: 
+    \begin{equation}
+        s_i=\Sigma_{j\in N(i)}w_{ij}
+    \end{equation}
+    Strength generalizes the concept of degree to weighted networks. Nodes with high strength are more influential in terms of total connectivity weight.
+    \item \textbf{Degree count}: number of neighbors per node: 
+    \begin{equation}
+        k_i=|N(i)|
+    \end{equation}
+    Degree centrality identifies nodes with many connections. High-degree nodes might be hubs, potentially important for spreading processes.
+    \item \textbf{Betweenness centrality}: how often a node lies in the shortest paths between pairs of other nodes. 
+    \begin{equation}
+        C_B(i)=\Sigma_{a\neq i \neq b}\frac{\sigma_{ab}(i)}{\sigma_{ab}}
+    \end{equation}
+    where $\sigma_{ab}$ is the total number of shortest paths from $a$ to $b$ and $\sigma_{ab}(i)$ is the number of those paths passing through $i$(\cite{barrat2004architecture}). Nodes with high betweenness can control information flow or act as bridges between network regions.
+    \item \textbf{Closeness centrality}: how close a node is to all other nodes, based on shortest-path distances $d(i,j)$:
+    \begin{equation}
+        C_C(i)=\frac{n-1}{\Sigma_{i\neq j}d(i,j)}
+    \end{equation}
+    Nodes with high closeness can quickly reach others in the network. They are efficient spreaders or communicators.
+    \item \textbf{Eigenvector centrality}: the importance score of each node is proportional to the sum of the scores of its neighboors:
+    \begin{equation}
+        x_i= \frac{1}{\lambda}\Sigma_jA_{ij}x_j
+    \end{equation}
+    where $A$ is the adjacency matrix and $\lambda$ is the largest eigenvalue. Nodes connected to highly central nodes have higher scores.
+    This measure not only counts the number of nodes but it also identifies nodes connected to other influential ones.
+    \item \textbf{Weighted clustering coefficient}: how likely a node's neighbors are to connect with each other. The measure is (\cite{barrat2004architecture}):
+    \begin{equation}
+        C_i^w = \frac{1}{s_i (k_i -1)}\Sigma_{j,k}\frac{w_{ij}+w_{ih}}{2}a_{ij}a_{ih}a_{jh}
+    \end{equation}
+    where $a_{ij}$ is the adjacency and $s_i$ the strength. Nodes with high clustering coefficients participate in tightly-knit communities.
+    \item \textbf{PageRank}: variation of eigenvector centrality based on a random walker that either follows outgoing edges or teleports to random node. the PageRank score $PR(i)$ is: 
+    \begin{equation}
+        PR(i)=\frac{1-d}{N}+d\Sigma_{j\in M_i}\frac{PR(j)}{k_j^{out}}
+    \end{equation}
+    where $d$ is the damping factor, $M_i$ are nodes linking to $i$ and $k_i^{out}$ is the out-degree of node $j$ (\cite{page1999pagerank}). High PageRank nodes areninfluential, considering both quantity and quality of connections. 
+\end{itemize}
+\subsubsection{Statistical Comparison Between Real and Synthetic Networks}
+To evaluate how well the synthetic networks reproduce the structural properties of the real network, we compare several centrality metrics using node-level statistics, empirical hypothesis testing, multiple-testing correction, and a global distributional test.
+%Below we detail the statistical methodology adopted.
+%\subsubsection{Synthetic Ensemble: Mean and Standard Deviation}
+\par
+First mean and standard deviation between real and synthetic ensambles are compared. Given $N$ synthetic networks, let $x_{ik}$ denote the value of a chosen centrality metric for node (or bin) $i$ in synthetic network $k$.  
+The expected synthetic behaviour is described by the sample mean:
+\[
+\mu_i = \frac{1}{N}\sum_{k=1}^{N} x_{ik},
+\]
+and the sample standard deviation:
+\[
+\sigma_i = \sqrt{\frac{1}{N-1}\sum_{k=1}^{N} (x_{ik}-\mu_i)^2}.
+\]
+These quantities provide a baseline model against which the real network is compared. %\cite{newman2010,milo2002}.
+\par
+%\subsubsection{Z-Score of Real vs.\ Synthetic Values}
+After that the deviation of the real network from the synthetic ensemble is quantified using the Z-score:
+\[
+z_i = \frac{x^{\text{real}}_i - \mu_i}{\sigma_i}.
+\]
+where $x^{\text{real}}_i$ denote the centrality value of the real network at node $i$.  
+Large positive or negative Z-scores indicate that the real network differs substantially from what is expected under the synthetic generative model (\cite{wasserman2004all}).
+%\subsubsection{Empirical Two-Sided p-Values}
+\par
+Since centrality measures may be non-Gaussian, non-parametric empirical two-sided p-values are computed.  
+Define the absolute deviation of real and synthetic values:
+\[
+d_i^{\text{real}} = \left| x^{\text{real}}_i - \mu_i \right|,
+\qquad
+d_{ik}^{\text{synth}} = \left| x_{ik} - \mu_i \right|.
+\]
+The empirical p-value counts how many synthetic values are equally or more extreme than the real one:
+\[
+p_i = \frac{1 + \sum_{k=1}^{N} \mathbf{1}\big(d_{ik}^{\text{synth}} \ge d_i^{\text{real}}\big)}{N+1},
+\]
+using an add-one correction to avoid zero probabilities (\cite{efron1994bootstrap, good2005permutation}).  
+This procedure yields a distribution-free estimate of significance.
+\par
+%\subsubsection{Multiple Testing Correction: False Discovery Rate}
+Since a statistical test is performed for each node, results for multiple comparisons are corrected using the Benjamini--Hochberg procedure, which controls the False Discovery Rate (FDR) (\cite{benjamini1995fdr}).  
+Given the set of empirical p-values $\{p_i\}$, we compute FDR-adjusted p-values $p_{i}^{\text{FDR}}$ and mark a comparison as significant when:
+\[
+p_{i}^{\text{FDR}} < \alpha,
+\]
+with $\alpha = 0.05$.  
+FDR control ensures that the proportion of false positives among significant results remains bounded.
+\par
+%\subsubsection{Global Distribution Comparison: Kolmogorov--Smirnov Test}
+To complement node-wise statistics, we apply a two-sample Kolmogorov--Smirnov (KS) test comparing the full distribution of real centrality values with the pooled distribution from all synthetic networks.  
+In this context the KS statistic is defined as:
+\[
+D = \sup_x \left| F_{\text{real}}(x) - F_{\text{synth}}(x) \right|,
+\]
+where $F_{\text{real}}$ and $F_{\text{synth}}$ are empirical cumulative distribution functions.  
+The associated p-value tests the null hypothesis that both samples are drawn from the same underlying distribution (\cite{kolmogorov1933ks, smirnov1948tables, massey1951kolmogorov}).  
+A small p-value indicates that the real and synthetic networks differ globally in the chosen centrality metric.
+\par
+%\subsubsection{Outputs}
+
+For each centrality metric, the analysis produces:
+\begin{itemize}
+    \item the real value, synthetic mean, and standard deviation for each node;
+    \item the Z-score quantifying deviation from the synthetic baseline;
+    \item the empirical two-sided p-value;
+    \item the FDR-corrected p-value and a significance indicator;
+    \item the global KS statistic and p-value for distribution-level comparison.
+\end{itemize}
+These results jointly characterize how the real network deviates from the statistical ensemble generated by the synthetic model.
+
+\subsection{Analysis Embedding and Clustering}
+Real and synthetic Hi-C data were compared at the level of graph-derived centrality features. Each matrix (real or synthetic) was flattened into a one-dimensional vector to facilitate comparative embedding. To visualize and assess similarities between real and synthetic matrices, three complementary embedding techniques were applied to the flattened feature vectors:
+\begin{itemize}
+    \item \textbf{Principal Component Analysis (PCA)} is a linear dimensionality reduction method that projects high-dimensional data onto a lower-dimensional space while maximizing the variance along the new axes, called principal components (\cite{hastie2009elements}). The first principal component captures the direction of maximum variance, the second captures the largest remaining variance orthogonal to the first, and so on. PCA preserves global structure and is computationally efficient, making it a standard first step for exploratory analysis of high-dimensional data.
+    \item \textbf{Uniform Manifold Approximation and Projection (UMAP)} is a nonlinear manifold learning technique that approximates the topological structure of high-dimensional data in a low-dimensional space (\cite{mcinnes2018umap}). It constructs a high-dimensional graph representation of the data and optimizes a low-dimensional graph to preserve both local and global structure. UMAP is computationally efficient and often produces embeddings that reflect both cluster structure and continuum relationships.
+    \item  \textbf{t-Distributed Stochastic Neighbor Embedding (t-SNE)} is a nonlinear dimensionality reduction technique designed for visualizing high-dimensional data by modeling local similarities (\cite{maaten2008tsne}). It converts pairwise distances between points in high-dimensional space into probabilities representing similarities and then minimizes the Kullback-Leibler divergence between these probabilities and the corresponding ones in low-dimensional space. t-SNE excels at separating clusters in complex datasets but can distort global structure and is sensitive to hyperparameters such as perplexity.
+\end{itemize}
+
+Subsequently, we performed k-means clustering with $k=2$ clusters on the flattened feature vectors. This unsupervised algorithm partitions the data by minimizing the within-cluster variance, assigning each matrix to the nearest centroid (\cite{hastie2009elements}). Clustering allows to quantitatively assess whether synthetic matrices reproduce the structure of real data: a high degree of overlap between clusters indicates high fidelity of the synthetic replicates while the silhouette score provides a measure of cluster separation and cohesion.
+%This workflow enabled systematic comparison between real Hi-C data and synthetic replicates in the space of centrality-derived features, allowing both visual and quantitative assessment of similarity.
