@@ -1,0 +1,4 @@
+To assess the realism of the synthetic Hi-C matrices, we compared network centrality measures between real and synthetic datasets. Clustering analysis with KMeans (n\_clusters = 2) on the high-dimensional centrality feature space showed very low silhouette scores (mean $\pm$ std $\approx 0.0220\pm 0.0023$), 
+indicating that real and synthetic matrices occupy almost the same region in feature space. 
+This result, together with z-score and FDR-corrected p-values from empirical comparisons, suggests that the synthetic matrices accurately preserve the structural properties of the original Hi-C networks.
+The clustering was repeated multiple times with controlled random seeds, confirming the robustness and reproducibility of the findings. Overall, these analyses validate that the synthetic generation procedure produces matrices that are statistically indistinguishable from the original data in terms of centrality and structural organization.

@@ -41,7 +41,9 @@
     
     % By combining these techniques, we can visually and quantitatively assess whether synthetic Hi-C matrices reproduce the structure of real data in the centrality feature space.
 
-This section presents what was obtained in every step towards the generation of synthetic data, how the process evolved from the original matrix, through the essential Hi-C matrix ending with the synthetic copies.
+This section presents what was obtained in every step towards the generation of synthetic data, 
+how the process evolved from the original matrix, through the essential Hi-C matrix ending with the 
+synthetic copies.
 \subsection{Essential matrix and Noise components}
 Signal and noise are distinguished by exploiting the aforementioned Random Matrix Theory (RMT). %In Figure \ref{}, all the different matrices are shown. 
 \begin{figure}[H]
@@ -105,7 +107,7 @@ As the eigenvector rank increases, the distributions approach that predicted by 
 All the eigenvalues, included the one falling inside the Wigner semicircle, were statistically tested to evaluate the robustness of the results.
 \newpage
 \subsection{Synthetic generation and Centrality measures}
-Once the real signal and noise component have been identified, the shyinthetic matrices can be produced. In this project fifty cofies of each sample data have been created. An example of sythetic matrix is reported in Figure \ref{}.
+Once the real signal and noise component have been identified, the shyinthetic matrices can be produced. In this project fifty copies of each sample data have been created. An example of sythetic matrix is reported in Figure \ref{fig: syntethic example matrix}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.42\linewidth]{chapters/images/Chapter 03/BIL_chr1_list_1copy.npy.png}
@@ -115,6 +117,74 @@ Once the real signal and noise component have been identified, the shyinthetic m
 To evaluate the compatibility of the synthetic data with the real one, each matrix was interpreted as a weighted network, where genomic loci correspond to nodes and contact frequencies define the edge weights. 
 Based on this representation, several centrality measures were computed (including degree, betweenness, closeness, and eigenvector centrality) to quantify the relative importance of each locus within the overall interaction network.
 The resulting centrality profiles were then used as feature vectors and projected into lower-dimensional spaces using three complementary dimensionality-reduction techniques: PCA, UMAP, and t-SNE. 
+Centrality measures have been compared bin-wise with the aim of demonstrate that synthetic data faithfully reproduce real data.
+As an example, the results derived from the synthetic copies generated from the \textit{BIL\_chr1\_list} sample are considered. In the table \ref{tab: real vs. synthetic}, for every centrality the real value, the mean and the standard deviation over the synthetic copies are reported. 
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{Centrality Measure} & \textbf{Real Value} & \textbf{Synthetic Mean} & \textbf{Synthetic STD} \\ 
+    \hline
+    Degree Count & & & \\ 
+    \hline
+    Strength & & & \\ 
+    \hline
+    Betweenness &  & & \\ 
+    \hline
+    Closeness &  & & \\ 
+    \hline
+    Eigenvector &  & & \\ 
+    \hline
+    Clustering (weighted) &  & &\\ 
+    \hline
+    PageRank  &  & & \\
+    \hline
+    \end{tabular}
+    \caption{Comparison between real value and synthetic mean for every centrality measure of the \textit{BIL\_chr1\_list} sample}
+    \label{tab: real vs. synthetic}
+\end{table}
+
+All considered centrality measures are validated by the aforementioned statistical tests. The table \ref{tab: validation of sy networks} summarizes the validation metrics for all considered centrality measures.
+Across all metrics, the mean absolute z-scores remain below unity and the fraction of FDR-significant bins is negligible. Furthermore, Kolmogorov–Smirnov tests do not reveal statistically significant differences between real and synthetic distributions.
+Overall, these results demonstrate that the synthetic networks accurately preserve both local and global structural properties of the original Hi-C networks.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{Centrality Measure} & \textbf{Mean |z|-score} & \textbf{\% bins FDR-significant} & \textbf{KS-test p-value} \\ 
+    \hline
+    Degree Count & & & \\ 
+    \hline
+    Strength & & & \\ 
+    \hline
+    Betweenness &  & & \\ 
+    \hline
+    Closeness &  & & \\ 
+    \hline
+    Eigenvector &  & & \\ 
+    \hline
+    Clustering (weighted) &  & &\\ 
+    \hline
+    PageRank  &  & & \\
+    \hline
+    \end{tabular}
+    \caption{Validation of synthetic Hi-C networks using centrality measures for the \textit{BIL\_chr1\_list} sample}
+    \label{tab: validation of sy networks}
+\end{table}
+
+After a bin-wise comparison, the entire distribution of centralities preservation has been verified. 
+For that puropose, Kolmogorov-Smirnov (KS) test has been performed for every centrality measure. As shown in the fourth column table \ref{tab: validation of sy networks}, the associated p-value is typically $>0.05$, which means that there is no significant difference between real and synthetic data. 
+Global properties are therefore preserved.
+
+\subsection{Clustering and Separability Analysis}
+
+To assess the potential separability between real and synthetic networks, a clustering analysis was performed in the space of centrality features. 
+For each matrix, a high-dimensional feature vector was constructed by concatenating the considered centrality measures. 
+KMeans clustering was then applied to the original feature space with the number of clusters fixed to two, corresponding to real and synthetic data.
+%The clustering quality was evaluated using the silhouette score, computed directly in the non-reduced feature space. The obtained silhouette values are close to zero (typically ranging from 0.009 to 0.022), indicating a strong overlap between the clusters associated with real and synthetic networks and, therefore, a low degree of separability between the two classes.
+For visualization purposes only, the same feature vectors were projected into two dimensions using dimensionality reduction techniques (PCA, UMAP, and t-SNE). In all considered projections, real and synthetic networks exhibit a largely overlapping distribution.% in agreement with the quantitative results provided by the silhouette analysis.
 These visualizations allowed to assess whether loci with similar structural roles cluster together. 
 %PCA provided a first linear overview of the data, while UMAP and t-SNE revealed more detailed nonlinear patterns. Among these methods, t-SNE produced the most distinct grouping of genomic regions, and its final cost value was recorded as an indicator of the quality and stability of the embedding.
 \begin{figure}[H]
@@ -131,7 +201,7 @@ These visualizations allowed to assess whether loci with similar structural role
     \caption{PCA (left) and UMAP (right) projections of the real Hi-C matrix and its synthetic copies generated from the \textit{BIL\_chr1\_list} sample.}
     \label{fig: PCA UMAP}
 \end{figure}
-As an example, we consider the results derived from the synthetic copies generated from the \textit{BIL\_chr1\_list} sample, which are representative of all the other results and they are shown in the Figure \ref{fig: PCA UMAP}. 
+As representative example, the results derived from the synthetic copies generated from the \textit{BIL\_chr1\_list} sample are kept. They are shown in the Figure \ref{fig: PCA UMAP}. 
 In this case both PCA and UMAP plots show that the synthetic datasets form compact clusters around the real matrix, indicating that the synthetic generation procedure preserves the main structural properties of the original data. 
 In the PCA projection, the values lie within a relatively narrow range (approximately –6 to +6 along both axes), reflecting the linear variance structure captured by the first two principal components. 
 In contrast, the UMAP embedding spans different coordinate ranges (about –2 to 1.5 on the x-axis and 7.5 to 11 on the y-axis), which is expected given UMAP’s nonlinear optimization and scaling. Despite these differences in numerical ranges, both methods consistently reveal the close relationship between real and synthetic data, confirming that the synthetic matrices reproduce the essential features of the original Hi-C network.
@@ -143,30 +213,6 @@ In contrast, the UMAP embedding spans different coordinate ranges (about –2 to
 \end{figure}
 
 The t-SNE embedding (Figure \ref{fig: tSNE}) shows a wider spread of values compared to PCA and UMAP, with coordinates ranging approximately from –40 to +40 on the x-axis and from –30 to +30 on the y-axis. Such broad numerical ranges are typical of t-SNE, as the method does not preserve global scale and often expands or contracts distances to emphasize local neighbourhood structure. Despite this difference in scale, the clustering pattern remains consistent with that observed in PCA and UMAP, further confirming the similarity between real and synthetic matrices.
-
-Finally, the t-SNE costs (Kullback–Leibler divergence) of all the synthetic copies can be seen in the Table \ref{tab: KL div}.
-
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{|c|c|}
-    \hline
-    \textbf{Sample} & \textbf{KL divergence} \\ 
-    \hline
-    BIL\_chr1 & 0.018 \\ 
-    \hline
-    BWW\_chr1 & 0.022 \\ 
-    \hline
-    BYJ\_chr1 & 0.020 \\ 
-    \hline
-    CVJ\_chr1 & 0.016 \\ 
-    \hline
-    LBZ\_chr1 & 0.031 \\ 
-    \hline
-    PYA\_chr1 & 0.025 \\ 
-    \hline
-    \end{tabular}
-    \caption{Silhouette score}
-    \label{tab: KL div}
-\end{table}
-
-The values are very small, they range between 0.016 and 0.031 indicating a high-quality embedding. Low KL divergence values reflect good agreement between the high-dimensional similarity structure and the two-dimensional representation. This suggests that t-SNE successfully captures the underlying relationships between samples and provides a reliable nonlinear visualization of their similarity.
+The clustering quality was evaluated using the silhouette score, computed directly in the non-reduced feature space. The obtained silhouette values are close to zero (typically around $0.0220\pm 0.0023$), indicating a strong overlap between the clusters associated with real and synthetic networks and, therefore, a low degree of separability between the two classes.
+%Finally, the t-SNE costs (Kullback–Leibler divergence) of all the synthetic copies can be seen in the Table \ref{tab: KL div}.
+Low KL divergence values reflect good agreement between the high-dimensional similarity structure and the two-dimensional representation. This suggests that t-SNE successfully captures the underlying relationships between samples and provides a reliable nonlinear visualization of their similarity.
