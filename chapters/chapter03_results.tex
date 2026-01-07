@@ -110,7 +110,7 @@ All the eigenvalues, included the one falling inside the Wigner semicircle, were
 Once the real signal and noise component have been identified, the shyinthetic matrices can be produced. In this project fifty copies of each sample data have been created. An example of sythetic matrix is reported in Figure \ref{fig: syntethic example matrix}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.42\linewidth]{chapters/images/Chapter 03/BIL_chr1_list_1copy.npy.png}
+    \includegraphics[width=0.5\linewidth]{chapters/images/Chapter 03/BIL_chr1_list_1copy.npy.png}
     \caption{Example of synthetic Hi-C matrix generated from the essential Hi-C matrix (\textit{BIL\_chr1\_list}) perturbed with a noise component.}
     \label{fig: syntethic example matrix}
 \end{figure}
@@ -118,65 +118,43 @@ To evaluate the compatibility of the synthetic data with the real one, each matr
 Based on this representation, several centrality measures were computed (including degree, betweenness, closeness, and eigenvector centrality) to quantify the relative importance of each locus within the overall interaction network.
 The resulting centrality profiles were then used as feature vectors and projected into lower-dimensional spaces using three complementary dimensionality-reduction techniques: PCA, UMAP, and t-SNE. 
 Centrality measures have been compared bin-wise with the aim of demonstrate that synthetic data faithfully reproduce real data.
-As an example, the results derived from the synthetic copies generated from the \textit{BIL\_chr1\_list} sample are considered. In the table \ref{tab: real vs. synthetic}, for every centrality the real value, the mean and the standard deviation over the synthetic copies are reported. 
+As an example, the results derived from the synthetic copies generated from the \textit{BIL\_chr1\_list} sample are considered. %In the table \ref{tab: real vs. synthetic}, for every centrality the real value, the mean and the standard deviation over the synthetic copies are reported. 
 
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{|c|c|c|c|}
-    \hline
-    \textbf{Centrality Measure} & \textbf{Real Value} & \textbf{Synthetic Mean} & \textbf{Synthetic STD} \\ 
-    \hline
-    Degree Count & & & \\ 
-    \hline
-    Strength & & & \\ 
-    \hline
-    Betweenness &  & & \\ 
-    \hline
-    Closeness &  & & \\ 
-    \hline
-    Eigenvector &  & & \\ 
-    \hline
-    Clustering (weighted) &  & &\\ 
-    \hline
-    PageRank  &  & & \\
-    \hline
-    \end{tabular}
-    \caption{Comparison between real value and synthetic mean for every centrality measure of the \textit{BIL\_chr1\_list} sample}
-    \label{tab: real vs. synthetic}
-\end{table}
+
 
 All considered centrality measures are validated by the aforementioned statistical tests. The table \ref{tab: validation of sy networks} summarizes the validation metrics for all considered centrality measures.
-Across all metrics, the mean absolute z-scores remain below unity and the fraction of FDR-significant bins is negligible. Furthermore, Kolmogorov–Smirnov tests do not reveal statistically significant differences between real and synthetic distributions.
-Overall, these results demonstrate that the synthetic networks accurately preserve both local and global structural properties of the original Hi-C networks.
-
-\begin{table}[h!]
+Across all metrics, the mean absolute z-scores remain below unity and the fraction of FDR-significant bins is negligible. %Furthermore, Kolmogorov–Smirnov tests do not reveal statistically significant differences between real and synthetic distributions.
+%Overall, these results demonstrate that the synthetic networks accurately preserve both local and global structural properties of the original Hi-C networks.
+\begin{table}[H]
     \centering
+    \small
     \begin{tabular}{|c|c|c|c|}
     \hline
     \textbf{Centrality Measure} & \textbf{Mean |z|-score} & \textbf{\% bins FDR-significant} & \textbf{KS-test p-value} \\ 
     \hline
-    Degree Count & & & \\ 
+    Degree Count & 0.670 & 0.0 & $1.773\times 10^{-39}$ \\ 
     \hline
-    Strength & & & \\ 
+    Strength & 0.133 & 0.0 & 1.000\\ 
     \hline
-    Betweenness &  & & \\ 
+    Betweenness & 0.329 & 0.0 & 0.136 \\ 
     \hline
-    Closeness &  & & \\ 
+    Closeness & 0.186 & 0.0 & 1.000 \\ 
     \hline
-    Eigenvector &  & & \\ 
+    Eigenvector & 0.122 & 0.0 & 1.000 \\ 
     \hline
-    Clustering (weighted) &  & &\\ 
+    Clustering (weighted) & 0.182 & 0.0 & 0.999 \\ 
     \hline
-    PageRank  &  & & \\
+    PageRank  & 0.138 & 0.0 & 1.000 \\
     \hline
     \end{tabular}
     \caption{Validation of synthetic Hi-C networks using centrality measures for the \textit{BIL\_chr1\_list} sample}
     \label{tab: validation of sy networks}
 \end{table}
-
+    
 After a bin-wise comparison, the entire distribution of centralities preservation has been verified. 
-For that puropose, Kolmogorov-Smirnov (KS) test has been performed for every centrality measure. As shown in the fourth column table \ref{tab: validation of sy networks}, the associated p-value is typically $>0.05$, which means that there is no significant difference between real and synthetic data. 
-Global properties are therefore preserved.
+For that puropose, Kolmogorov-Smirnov (KS) test has been performed for every centrality measure. As shown in the fourth column table \ref{tab: validation of sy networks}, the associated p-value is $>0.05$ for all the metrics except for the \textit{Degree Count}, which means that there is no significant difference between real and synthetic data. 
+For the \textit{Degree Count} metric, the Kolmogorov–Smirnov test detects a global difference in the distribution; however, this effect is most likely attributable to the high sensitivity of the KS test when applied to discrete variables, especially in the presence of large sample sizes, rather than to genuine structural discrepancies. Notably, no significant local deviations are observed for this metric.
+Overall, the synthetic networks faithfully preserve both the local and global structural properties of the original Hi-C networks.
 
 \subsection{Clustering and Separability Analysis}
 
