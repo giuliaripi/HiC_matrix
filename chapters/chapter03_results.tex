@@ -65,7 +65,7 @@ The plot shown in Figure \ref{fig:original matrix} displays the original Hi-C ma
         \centering
         \includegraphics[height=6cm]{chapters/images/Chapter 03/Noise_matrix_BIL_chr1_list_matrix.npy.png}
     \end{minipage}
-    \caption{Essential Hi-C matrix (left) and noise matrix(right) isolated from the original matrix (\textit{BIL\_chr1\_list})}
+    \caption{Essential Hi-C matrix (left) and noise matrix (right) isolated from the original matrix (\textit{BIL\_chr1\_list})}
     \label{fig: ess noise hic}
 \end{figure}
 The matrix showing the signal component has the name of Essential Hi-C matrix (Ess Hi-C) and it is a processed representation of chromatin contacts that retains only biologically meaningful interactions, minimizing noise and highlighting the core 3D genome structure.
@@ -152,8 +152,26 @@ Across all metrics, the mean absolute z-scores remain below unity and the fracti
 \end{table}
     
 After a bin-wise comparison, the entire distribution of centralities preservation has been verified. 
-For that puropose, Kolmogorov-Smirnov (KS) test has been performed for every centrality measure. As shown in the fourth column table \ref{tab: validation of sy networks}, the associated p-value is $>0.05$ for all the metrics except for the \textit{Degree Count}, which means that there is no significant difference between real and synthetic data. 
+For that puropose, Kolmogorov-Smirnov (KS) test has been performed for every centrality measure. As shown in the fourth column of the Table \ref{tab: validation of sy networks}, the associated p-value is $>0.05$ for all the metrics except for the \textit{Degree Count}, which means that there is no significant difference between real and synthetic data. 
 For the \textit{Degree Count} metric, the Kolmogorov–Smirnov test detects a global difference in the distribution; however, this effect is most likely attributable to the high sensitivity of the KS test when applied to discrete variables, especially in the presence of large sample sizes, rather than to genuine structural discrepancies. Notably, no significant local deviations are observed for this metric.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=9cm]{chapters/images/Chapter 03/betweenness_comparison.png}
+    \end{minipage}
+    \hspace{0.1\linewidth}
+    \begin{minipage}[t]{.4\linewidth}
+        \centering
+        \includegraphics[height=9cm]{chapters/images/Chapter 03/degree_count_comparison.png}
+    \end{minipage}
+    \caption{Visual representation of the superposition of real and synthetic values, Z-scores, and FDR p-values for two selected metrics: Betweenness (left) and Degree Count (right) for the (\textit{BIL\_chr1\_list}) sample.}
+    \label{fig: bet and DG comparison}
+\end{figure}
+
+To support the validity of these results, we can examine the graphs reported in Figure \ref{fig: bet and DG comparison}, which provide a visual representation of the superposition of real and synthetic values, Z-scores, and FDR p-values for two selected metrics: Betweenness and Degree Count. Consistent with the previous table (Table \ref{tab: validation of sy networks}), Betweenness shows a precise superposition, while Degree Count is slightly less exact but still acceptable: most of the real data remain within the standard deviation of the synthetic copies, the Z-score lies within the $\pm2$ range for most of the sample copies, and the FDR p-value $>0.05$.
+This suggests that the KS result for Degree Count is driven by the test's global sensitivity, not by any true structural discrepancy.
 Overall, the synthetic networks faithfully preserve both the local and global structural properties of the original Hi-C networks.
 
 \subsection{Clustering and Separability Analysis}
@@ -163,7 +181,7 @@ For each matrix, a high-dimensional feature vector was constructed by concatenat
 KMeans clustering was then applied to the original feature space with the number of clusters fixed to two, corresponding to real and synthetic data.
 %The clustering quality was evaluated using the silhouette score, computed directly in the non-reduced feature space. The obtained silhouette values are close to zero (typically ranging from 0.009 to 0.022), indicating a strong overlap between the clusters associated with real and synthetic networks and, therefore, a low degree of separability between the two classes.
 For visualization purposes only, the same feature vectors were projected into two dimensions using dimensionality reduction techniques (PCA, UMAP, and t-SNE). In all considered projections, real and synthetic networks exhibit a largely overlapping distribution.% in agreement with the quantitative results provided by the silhouette analysis.
-These visualizations allowed to assess whether loci with similar structural roles cluster together. 
+ These visualizations allowed to assess whether loci with similar structural roles cluster together. 
 %PCA provided a first linear overview of the data, while UMAP and t-SNE revealed more detailed nonlinear patterns. Among these methods, t-SNE produced the most distinct grouping of genomic regions, and its final cost value was recorded as an indicator of the quality and stability of the embedding.
 \begin{figure}[H]
     \centering

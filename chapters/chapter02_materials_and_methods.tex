@@ -1,5 +1,5 @@
 The project aims to generate fifty synthetic copies of each one of the  six original dataset containing  HiC data from three different cell types: brain pericyte cells (\textit{LBZ\_chr1\_list, CVJ\_chr1\_list}), brain microvascular endothelial cells (\textit{BIL\_chr1\_list, BYJ\_chr1\_list}) and astrocyte of the spinal cord (\textit{BWW\_chr1\_list, PYA\_chr1\_list}).
-To obtain this result, real signal and noise components must be separated and the synthetic matrices will be the sum the real signal component and the randomly perturbed noise one. 
+To obtain this result, real signal and noise components must be separated and the synthetic matrices will be the sum the real signal component and a randomly perturbed noise one. 
 \subsection{Random Matrix Theory (RMT)}
 In Hi-C or network analysis, we often want to distinguish signal (biologically meaningful correlations) from noise (random statistical fluctuations).
 Random Matrix Theory provides a null model of pure noise: a Gaussian random symmetric matrix.
@@ -27,7 +27,7 @@ The three tests are:
     \item \textbf{Kolmogorov-Smirnov (KS) test}
     \item \textbf{Shuffling test}.
 \end{itemize}
-The first to be applied is the explained variance test which was used to quantify how much the variability in the observed data is captured by the model providing a measure of the goodness of the fit. higher explained variance indicates that the model effectively represent the underlying structure of the data (\cite{hastie2009elements}). \\
+The first to be applied is the explained variance test which was used to quantify how much the variability in the observed data is captured by the model providing a measure of the goodness of the fit. Higher explained variance indicates that the model effectively represent the underlying structure of the data (\cite{hastie2009elements}). \\
 After that, the KS test was applied to compare the distributions of model outputs assessing whether they significantly deviate from a reference distribution (\cite{massey1951kolmogorov}). Eventually, the shuffling test was performed to determine the statistical significance of observed effects. By randomly shuffling labels or variables and recalculating the test statistic multiple times, we generated a null distribution, allowing us to assess whether the observed results could arise by chance (\cite{good2005permutation}). Together, these tests provided a rigorous framework to validate model predictions and to ensure that observed patterns were not artefacts of random variation.
 
 \subsection{Synthetic Hi-C matrix generation}
@@ -58,7 +58,7 @@ The centralities involved in this analysis are:
     \begin{equation}
         C_B(i)=\Sigma_{a\neq i \neq b}\frac{\sigma_{ab}(i)}{\sigma_{ab}}
     \end{equation}
-    where $\sigma_{ab}$ is the total number of shortest paths from $a$ to $b$ and $\sigma_{ab}(i)$ is the number of those paths passing through $i$(\cite{barrat2004architecture}). Nodes with high betweenness can control information flow or act as bridges between network regions.
+    where $\sigma_{ab}$ is the total number of shortest paths from $a$ to $b$ and $\sigma_{ab}(i)$ is the number of those paths passing through $i$ (\cite{barrat2004architecture}). Nodes with high betweenness can control information flow or act as bridges between network regions.
     \item \textbf{Closeness centrality}: how close a node is to all other nodes, based on shortest-path distances $d(i,j)$:
     \begin{equation}
         C_C(i)=\frac{n-1}{\Sigma_{i\neq j}d(i,j)}
@@ -79,7 +79,7 @@ The centralities involved in this analysis are:
     \begin{equation}
         PR(i)=\frac{1-d}{N}+d\Sigma_{j\in M_i}\frac{PR(j)}{k_j^{out}}
     \end{equation}
-    where $d$ is the damping factor, $M_i$ are nodes linking to $i$ and $k_i^{out}$ is the out-degree of node $j$ (\cite{page1999pagerank}). High PageRank nodes areninfluential, considering both quantity and quality of connections. 
+    where $d$ is the damping factor, $M_i$ are nodes linking to $i$ and $k_i^{out}$ is the out-degree of node $j$ (\cite{page1999pagerank}). High PageRank nodes are influential, considering both quantity and quality of connections. 
 \end{itemize}
 \subsubsection{Statistical Comparison Between Real and Synthetic Networks}
 To evaluate how well the synthetic networks reproduce the structural properties of the real network, we compare several centrality metrics using node-level statistics, empirical hypothesis testing, multiple-testing correction, and a global distributional test.
