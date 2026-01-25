@@ -212,3 +212,16 @@ The t-SNE embedding (Figure \ref{fig: tSNE}) shows a wider spread of values comp
 The clustering quality was evaluated using the silhouette score, computed directly in the non-reduced feature space. The obtained silhouette values are close to zero (typically around $0.0220\pm 0.0023$), indicating a strong overlap between the clusters associated with real and synthetic networks and, therefore, a low degree of separability between the two classes.
 %Finally, the t-SNE costs (Kullback–Leibler divergence) of all the synthetic copies can be seen in the Table \ref{tab: KL div}.
 Low KL divergence values reflect good agreement between the high-dimensional similarity structure and the two-dimensional representation. This suggests that t-SNE successfully captures the underlying relationships between samples and provides a reliable nonlinear visualization of their similarity.
+\\
+In the previous visualization one case was taken as representative example, which doesn't allow a full assessment of the variability across different cell types. To address this, all six cell types were projected into a common PCA space, using the mean centrality vector of each dataset.
+Real datasets are represented as blue points, while synthetic datasets are shown as orange points in the Figure \ref{fig: global pca}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[height= 5.5cm]{}
+    \caption{PCA projection of all six cell types. Blue points represent real datasets, while orange points correspond to the synthetic datasets. Each point shows the mean centrality vector of a dataset.}
+    \label{fig: global pca}
+\end{figure}
+
+
+This visualization allows a direct comparison between real and synthetic data across all cell types, showing how well the synthetic data preserves the structure of the original data. 
+Overlaps between blue and orange points indicate that the synthetic datasets closely replicate the distribution of the original data, whereas deviations highlight potential discrepancies in capturing the full variability of each cell type.

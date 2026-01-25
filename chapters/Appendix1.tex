@@ -1,8 +1,31 @@
-In the main text, the eigenvalue spectrum is shown for individual chromosomes. While this chromosome-specific analysis is required for signal–noise separation and for the generation of synthetic Hi-C matrices, it is known that Random Matrix Theory predictions, such as the Wigner semicircle law, hold asymptotically and are best observed when averaging over large matrix ensembles.
-To verify the consistency of the noise component with Random Matrix Theory at a global level, we therefore aggregated the eigenvalues obtained from all chromosomes considered in this study. Figure \ref{} shows the resulting eigenvalue distribution, overlaid with the corresponding Wigner semicircle.
-Compared to single-chromosome spectra, the aggregated distribution exhibits a much closer agreement with the semicircular law. This confirms that deviations observed at the individual chromosome level are mainly due to finite-size effects and chromosome-specific structural correlations, rather than to a breakdown of the Random Matrix Theory assumptions.
-This analysis serves as a global statistical validation of the RMT-based framework, while all subsequent signal–noise decomposition and synthetic data generation steps are performed independently for each chromosome in order to preserve their specific biological and structural properties.
+%In the main text, the eigenvalue spectrum is shown for individual chromosomes. While this chromosome-specific analysis is required for signal–noise separation and for the generation of synthetic Hi-C matrices, it is known that Random Matrix Theory predictions, such as the Wigner semicircle law, hold asymptotically and are best observed when averaging over large matrix ensembles.
+%To verify the consistency of the noise component with Random Matrix Theory at a global level, we therefore aggregated the eigenvalues obtained from all chromosomes considered in this study. Figure \ref{} shows the resulting eigenvalue distribution, overlaid with the corresponding Wigner semicircle.
+%Compared to single-chromosome spectra, the aggregated distribution exhibits a much closer agreement with the semicircular law. This confirms that deviations observed at the individual chromosome level are mainly due to finite-size effects and chromosome-specific structural correlations, rather than to a breakdown of the Random Matrix Theory assumptions.
+%This analysis serves as a global statistical validation of the RMT-based framework, while all subsequent signal–noise decomposition and synthetic data generation steps are performed independently for each chromosome in order to preserve their specific biological and structural properties.
 
 
 %Didascalia
 %Eigenvalue distribution obtained by aggregating all chromosomes analyzed in this study. The histogram is overlaid with the Wigner semicircle predicted by Random Matrix Theory. The improved agreement compared to single-chromosome spectra highlights the role of finite-size and chromosome-specific effects.
+
+In the previous analysis, the Wigner semicircle law was applied to each chromosome separately in order to identify the random component of the Hi-C contact matrices. In this context, the semicircle law was not interpreted as an exact description of the spectrum, but rather as a null model for noise, allowing the identification of eigenvalues deviating from the bulk.
+
+However, the eigenvalue distributions obtained from single chromosomes do not follow the Wigner semicircle law precisely. This is expected, since individual chromosomes correspond to matrices of limited size and retain strong structural correlations arising from biological organization.
+
+For this reason, in this Appendix the same analysis was extended to the entire dataset by constructing a global matrix containing all six chromosomes, as shown in Figure \ref{fig:global wigner}. Even in this case, the resulting eigenvalue distribution exhibits a pronounced central peak, significantly higher than that predicted by the semicircle law.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.42\linewidth]{chapters/images/Chapter 03/Global Wigner.png}
+    \caption{Eigenvalue distribution of the entire dataset overlaided with the Wigner semicircle.}
+    \label{fig:global wigner}
+\end{figure}
+This deviation cannot be attributed solely to finite-size effects, but rather reflects the intrinsic properties of Hi-C matrices, which are sparse, highly correlated, and organized in blocks corresponding to different chromosomes and genomic domains. As a consequence, the assumptions underlying the Wigner semicircle law—most notably the independence of matrix elements—are violated.
+
+Nevertheless, the comparison with random matrix theory remains meaningful when interpreted in a qualitative sense. In particular, the semicircle law provides a useful reference for identifying the bulk of the spectrum associated with random fluctuations, while eigenvalues outside this region can be interpreted as signatures of underlying biological structure.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.42\linewidth]{chapters/images/Chapter 03/GOE.png}
+    \caption{Level spacing distribution of the unfolded eigenvalues of the global Hi-C matrix. The histogram is compared with the Wigner surmise for the Gaussian Orthogonal Ensemble (solid line).}
+    \label{fig:goe}
+\end{figure}
+
+To further assess the applicability of random matrix theory, a level-spacing analysis was also performed (Figure\ref{fig:goe}). Although deviations from the Gaussian Orthogonal Ensemble were observed, the spacing distribution retains qualitative features of level repulsion, suggesting partial universality in the local spectral statistics despite the non-random global structure of the matrices.

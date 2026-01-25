@@ -257,6 +257,152 @@
       \field{title}{Sulla determinazione empirica di una legge di distribuzione}
       \field{year}{1933}
     \endentry
+    \entry{comprehensive_mapping}{article}{}{}
+      \name{author}{19}{}{%
+        {{un=0,uniquepart=base,hash=f5c021ca85523d5083c8d306b8328c0d}{%
+           family={Lieberman-Aiden},
+           familyi={L\bibinithyphendelim A\bibinitperiod},
+           given={Erez},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=385bbacbd4dfe6a22aec5abc9db10e16}{%
+           family={Berkum},
+           familyi={B\bibinitperiod},
+           given={Nynke\bibnamedelima L.},
+           giveni={N\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0,
+           prefix={van},
+           prefixi={v\bibinitperiod},
+           prefixun=0}}%
+        {{un=0,uniquepart=base,hash=06d02b222ce5940c7b35ed81c1aab73d}{%
+           family={Williams},
+           familyi={W\bibinitperiod},
+           given={Louise},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7bf4039f5c1d0705add2c684cf44d5f9}{%
+           family={Imakaev},
+           familyi={I\bibinitperiod},
+           given={Maxim},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c99fdec937885cd77bc9efd4a423bd76}{%
+           family={Ragoczy},
+           familyi={R\bibinitperiod},
+           given={Tobias},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=70f9afab18d01b801ba0d6bb0005f513}{%
+           family={Telling},
+           familyi={T\bibinitperiod},
+           given={Agnes},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c0fd7770e6106343cf7a3331af98cfdd}{%
+           family={Amit},
+           familyi={A\bibinitperiod},
+           given={Ido},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=892f0944b29c05a63cf0c95d7f9d63f4}{%
+           family={Lajoie},
+           familyi={L\bibinitperiod},
+           given={Bryan\bibnamedelima R.},
+           giveni={B\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b57bd447b5f4961a2ee3b6dcb3da69f8}{%
+           family={Sabo},
+           familyi={S\bibinitperiod},
+           given={Peter\bibnamedelima J.},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c7898b2dfdb276ae825864d3056419b3}{%
+           family={Dorschner},
+           familyi={D\bibinitperiod},
+           given={Michael\bibnamedelima O.},
+           giveni={M\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b4d93e523652435fc0a464d079ff3d8c}{%
+           family={Sandstrom},
+           familyi={S\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9382905088c04e3c1d1cd1218cb6ebfb}{%
+           family={Bernstein},
+           familyi={B\bibinitperiod},
+           given={Bradley},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bf83f49c1df2e3bafc4522d12225e472}{%
+           family={Bender},
+           familyi={B\bibinitperiod},
+           given={M.\bibnamedelimi A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fb2260cd9c75db1bebc7c5f1c74ef98b}{%
+           family={Groudine},
+           familyi={G\bibinitperiod},
+           given={Mark},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f53c256d9e569f0fff3e0f1203b33b0e}{%
+           family={Gnirke},
+           familyi={G\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d17f963aa51d179433d1397f882b77ad}{%
+           family={Stamatoyannopoulos},
+           familyi={S\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3d7fe04d09f08b82f608fd67ad034a3d}{%
+           family={Mirny},
+           familyi={M\bibinitperiod},
+           given={Leonid\bibnamedelima A.},
+           giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b16d2d23aa89e27b5cb22911d6395e73}{%
+           family={Lander},
+           familyi={L\bibinitperiod},
+           given={Eric\bibnamedelima S.},
+           giveni={E\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d206bf011de69e37a443f9be4bbec2f0}{%
+           family={Dekker},
+           familyi={D\bibinitperiod},
+           given={Job},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{67e6f85649cf7f79172131fcb7b58ee5}
+      \strng{fullhash}{8d5315c0f96e4bb215588bd13c639901}
+      \strng{fullhashraw}{8d5315c0f96e4bb215588bd13c639901}
+      \strng{bibnamehash}{8d5315c0f96e4bb215588bd13c639901}
+      \strng{authorbibnamehash}{8d5315c0f96e4bb215588bd13c639901}
+      \strng{authornamehash}{67e6f85649cf7f79172131fcb7b58ee5}
+      \strng{authorfullhash}{8d5315c0f96e4bb215588bd13c639901}
+      \strng{authorfullhashraw}{8d5315c0f96e4bb215588bd13c639901}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{month}{10}
+      \field{number}{7269}
+      \field{title}{Comprehensive Mapping of Long-Range Interactions Reveals Folding Principles of the Human Genome}
+      \field{volume}{462}
+      \field{year}{2009}
+      \field{pages}{289\bibrangedash 294}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1038/nature08680
+      \endverb
+    \endentry
     \entry{maaten2008tsne}{article}{}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=25eb1b6f4ed60411ccb079412515b0f7}{%
@@ -513,7 +659,6 @@
       \field{year}{2004}
     \endentry
   \enddatalist
-  \missing{comprehensive_mapping}
 \endrefsection
 \endinput
 
